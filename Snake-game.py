@@ -41,9 +41,31 @@ def check_collisions(snake):
 
 def game_over():
     canvas.delete(ALL)
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/3,
                        font=('consolas',70), text="GAME OVER", fill="red", tag="gameover")
+    restart_btn = Button(window, text="Restart", font=('consolas', 20), command=restart_game)
+    restart_btn.place(x=canvas.winfo_width()/2 - 60, y=canvas.winfo_height()/2)
+
+
     
+def restart_game():
+    global snake, food, score, direction
+
+    score = 0
+    direction = 'down'
+    label.config(text="Score:{}".format(score))
+
+    canvas.delete(ALL)
+    
+    for widget in window.winfo_children():
+        if isinstance(widget, Button):
+            widget.destroy()
+
+    snake = Snake()
+    food = Food()
+
+    next_turn(snake, food)
+
 
 def change_direction(new_direction):
     global direction
